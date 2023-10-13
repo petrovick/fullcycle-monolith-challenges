@@ -45,6 +45,7 @@ export default class Invoice extends BaseEntity implements AggregateRoot {
   }
 
   validate(): void {
+    this._items.map((ii)=> ii.validate());
   }
 
   get name(): string {
