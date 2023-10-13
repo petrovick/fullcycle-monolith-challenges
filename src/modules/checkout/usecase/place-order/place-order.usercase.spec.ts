@@ -5,7 +5,7 @@ import PlaceOrderUsecase from "./place-order.usercase"
 
 const mockDate = new Date(2000, 1, 1);
 
-describe('PlaceOrderUsecase unit test', () => {
+describe.only('PlaceOrderUsecase unit test', () => {
     describe('validateProducts method', () => {
         //@ts-expect-error - no params in constructor
         const placeOrdersacase = new PlaceOrderUsecase();
@@ -23,7 +23,7 @@ describe('PlaceOrderUsecase unit test', () => {
         it('should throw an error when product is out of stock', async () => {
             const mockProductFacade = {
                 checkStock: jest.fn(({productId}: { productId: string}) => {
-                    Promise.resolve({
+                    return Promise.resolve({
                         productId,
                         stock: productId === '1' ? 0 : 1
                     })
@@ -84,7 +84,7 @@ describe('PlaceOrderUsecase unit test', () => {
             placeOrderUsecase['_catalogFacade'] = mockCatalogFacade;
 
             await expect(placeOrderUsecase['getProduct']('0'))
-                .rejects.toThrow(new Error('product not found'));
+                .rejects.toThrow(new Error('Product not found'));
         });
 
         it('should return a product', async () => {
@@ -197,7 +197,7 @@ describe('PlaceOrderUsecase unit test', () => {
                 create: jest.fn().mockResolvedValue({ id: '1i'})
             };
 
-            const placeOrdersacase = new PlaceOrderUsecase(mockClientFacade, null, null, mockCheckoutRepo, mockInvoiceFacade, mockPaymentFacade);
+            const placeOrdersacase = new PlaceOrderUsecase(mockClientFacade as any, null, null, mockCheckoutRepo as any, mockInvoiceFacade as any, mockPaymentFacade);
 
             const products = {
                 '1': new Product({
@@ -257,10 +257,10 @@ describe('PlaceOrderUsecase unit test', () => {
             });
 
             it('should be approved', async () => {
-                mockPaymentFacade.process = mockPaymentFacade.process.mockRejectedValue({
+                mockPaymentFacade.process = mockPaymentFacade.process.mockReturnValue({
                     transactionId: '1t',
                     orderId: '1o',
-                    amout: 100,
+                    amount: 100,
                     status: 'approved',
                     createdAt: new Date(),
                     updatedAt: new Date(),
@@ -278,7 +278,7 @@ describe('PlaceOrderUsecase unit test', () => {
                 expect(output.products).toStrictEqual([{productId: '1'}, {productId: '2'}]);
                 expect(mockClientFacade.find).toHaveBeenCalledTimes(1);
                 expect(mockClientFacade.find).toHaveBeenCalledWith({id: '1c'});
-                expect(mockValidateProducts).toHaveBeenCalledTimes(2);
+                expect(mockValidateProducts).toHaveBeenCalledTimes(1);
                 expect(mockCheckoutRepo.addOrder).toHaveBeenCalledTimes(1);
                 expect(mockPaymentFacade.process).toHaveBeenCalledTimes(1);
                 expect(mockPaymentFacade.process).toHaveBeenCalledWith({

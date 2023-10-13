@@ -28,7 +28,13 @@ describe("ClientRepository test", () => {
       id: new Id("1"),
       name: "Client 1",
       email: "x@x.com",
-      address: "Address 1",
+      document: "Address 1",
+      street: "Address 1",
+      complement: "Address 1",
+      number: 1,
+      city: "Address 1",
+      state: "Address 1",
+      zipCode: "Address 1",
     });
 
     const repository = new ClientRepository();
@@ -40,7 +46,13 @@ describe("ClientRepository test", () => {
     expect(clientDb.id).toBe(client.id.id);
     expect(clientDb.name).toBe(client.name);
     expect(clientDb.email).toBe(client.email);
-    expect(clientDb.address).toBe(client.address);
+    expect(clientDb.document).toBe(client.document);
+    expect(clientDb.street).toBe(client.street);
+    expect(clientDb.complement).toBe(client.complement);
+    expect(clientDb.number).toBe(client.number);
+    expect(clientDb.city).toBe(client.city);
+    expect(clientDb.state).toBe(client.state);
+    expect(clientDb.zipCode).toBe(client.zipCode);
     expect(clientDb.createdAt).toStrictEqual(client.createdAt);
     expect(clientDb.updatedAt).toStrictEqual(client.updatedAt);
   });
@@ -50,7 +62,13 @@ describe("ClientRepository test", () => {
       id: "1",
       name: "Client 1",
       email: "x@x.com",
-      address: "Address 1",
+      document: "Address 1",
+      street: "Address 1",
+      complement: "Address 1",
+      number: 1,
+      city: "Address 1",
+      state: "Address 1",
+      zipCode: "Address 1",
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -61,7 +79,13 @@ describe("ClientRepository test", () => {
     expect(result.id.id).toEqual(client.id);
     expect(result.name).toEqual(client.name);
     expect(result.email).toEqual(client.email);
-    expect(result.address).toEqual(client.address);
+    expect(result.document).toEqual(client.document);
+    expect(result.street).toEqual(client.street);
+    expect(result.complement).toEqual(client.complement);
+    expect(result.number).toEqual(client.number);
+    expect(result.city).toEqual(client.city);
+    expect(result.state).toEqual(client.state);
+    expect(result.zipCode).toEqual(client.zipCode);
     expect(result.createdAt).toStrictEqual(client.createdAt);
     expect(result.updatedAt).toStrictEqual(client.updatedAt);
   });
