@@ -8,16 +8,17 @@ import { InvoiceModel } from "./invoice.model";
 export default class InvoiceRepository implements InvoiceGateway {
   async create(invoice: Invoice): Promise<Invoice> {
     const invoiceModel = await InvoiceModel.create({
+      id: invoice.id.id,
       name: invoice.name,
       document: invoice.document,
-      street: invoice.street,
-      number: invoice.number,
-      complement: invoice.complement,
-      city: invoice.city,
-      state: invoice.state,
-      zipCode: invoice.zipCode,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      street: invoice.address.street,
+      number: invoice.address.number,
+      complement: invoice.address.complement,
+      city: invoice.address.city,
+      state: invoice.address.state,
+      zipCode: invoice.address.zipCode,
+      createdAt: invoice.createdAt || new Date(),
+      updatedAt: invoice.updatedAt ||new Date(),
     });
     
     const invoiceItemsModel: InvoiceItemModel[] = []
@@ -55,20 +56,20 @@ export default class InvoiceRepository implements InvoiceGateway {
       id: new Id(invoiceModel.id),
       name: invoiceModel.name,
       document: invoiceModel.document,
-      city: invoiceModel.city,
-      complement: invoiceModel.complement,
-      number: invoiceModel.number,
-      state: invoiceModel.state,
-      street: invoiceModel.street,
-      zipCode: invoiceModel.zipCode,
+      address: {
+        city: invoiceModel.city,
+        complement: invoiceModel.complement,
+        number: invoiceModel.number,
+        state: invoiceModel.state,
+        street: invoiceModel.street,
+        zipCode: invoiceModel.zipCode,
+      },
       items: invoiceModel.items.map((ii: InvoiceItemModel): InvoiceItem => new InvoiceItem({
           id: new Id(ii.id),
           name: ii.name,
           price: ii.price
         })
-      ),
-      createdAt: invoiceModel.createdAt,
-      updatedAt: invoiceModel.updatedAt,
+      )
     });
   }
 }

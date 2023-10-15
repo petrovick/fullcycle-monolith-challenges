@@ -35,7 +35,6 @@ export class InvoiceModel extends Model {
   zipCode: string;
 
   @HasMany(() => InvoiceItemModel)
-  @Column({ allowNull: false })
   items: InvoiceItemModel[];
 
   @Column({ allowNull: false })
