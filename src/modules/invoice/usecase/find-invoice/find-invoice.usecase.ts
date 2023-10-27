@@ -21,12 +21,12 @@ export default class FindInvoiceUsecase implements UseCaseInterface {
             name: invoice.name,
             document: invoice.document,
             address: {
-              street: invoice.street,
-              number: invoice.number,
-              complement: invoice.complement,
-              city: invoice.city,
-              state: invoice.state,
-              zipCode: invoice.zipCode
+              street: invoice.address.street,
+              number: invoice.address.number,
+              complement: invoice.address.complement,
+              city: invoice.address.city,
+              state: invoice.address.state,
+              zipCode: invoice.address.zipCode
             },
             total: invoice.items.reduce((amount, invoice) => amount + invoice.price, 0),
             items: invoice.items.map(ii => { return { id: ii.id.id, name: ii.name,price: ii.price}}),

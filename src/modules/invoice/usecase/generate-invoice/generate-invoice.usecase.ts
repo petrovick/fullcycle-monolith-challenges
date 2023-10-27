@@ -14,12 +14,14 @@ export default class GenerateInvoiceUseCase {
         const invoice = new Invoice({
             name: input.name,
             document: input.document,
-            city: input.city,
-            complement: input.complement,
-            number: input.number,
-            state: input.state,
-            street: input.street,
-            zipCode: input.zipCode,
+            address: {
+                city: input.city,
+                complement: input.complement,
+                number: input.number,
+                state: input.state,
+                street: input.street,
+                zipCode: input.zipCode,
+            },
             items: input.items.map((ii): InvoiceItem => new InvoiceItem({
                     name: ii.name,
                     price: ii.price
@@ -35,12 +37,12 @@ export default class GenerateInvoiceUseCase {
             items: createdInvoice.items.map(ii => { return { id: ii.id.id, name: ii.name,price: ii.price}}),
             name: createdInvoice.name,
             document: createdInvoice.document,
-            street: createdInvoice.street,
-            number: createdInvoice.number,
-            complement: createdInvoice.complement,
-            city: createdInvoice.city,
-            state: createdInvoice.state,
-            zipCode: createdInvoice.zipCode,
+            street: createdInvoice.address.street,
+            number: createdInvoice.address.number,
+            complement: createdInvoice.address.complement,
+            city: createdInvoice.address.city,
+            state: createdInvoice.address.state,
+            zipCode: createdInvoice.address.zipCode,
         };
     }
   }
